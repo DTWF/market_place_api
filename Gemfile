@@ -55,6 +55,7 @@ end
 group :test do
 
   gem 'ffaker'
+  gem "shoulda-matchers"
 end
 
 group :development do
