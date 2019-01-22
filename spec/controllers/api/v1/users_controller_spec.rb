@@ -102,4 +102,15 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryBot.create :user
+      delete :destroy, params: { id: @user.id, format: :json}
+    end
+
+    it "should return status 204" do
+      expect(response.status).to eq(204)
+    end
+  end
 end
