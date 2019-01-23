@@ -13,6 +13,7 @@ RSpec.describe User, type: :model do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:auth_token)}
   it { should validate_uniqueness_of(:auth_token) }
+  it { is_expected.to have_many(:products)}
 
   describe "#generate_authentication_token!" do
     it "generates an authentication token" do
@@ -25,6 +26,21 @@ RSpec.describe User, type: :model do
       existing_user = FactoryBot.create(:user, auth_token: "auniquetoken123")
       @user.generate_authentication_token!
       expect(@user.auth_token).not_to eql existing_user.auth_token
+    end
+  end
+
+  describe "#products associations" do
+    before do
+      @user.save
+      3.times { FactoryBot.create :product, user: @user}
+    end
+
+    it "destroys the associated products on self destroy" do
+      products = @user.products
+      @user.destroy
+      products.each do |product|
+        expect(Product.find(product)).to raise_error ActiveRecord::RecordNotFound
+      end
     end
   end
 end
