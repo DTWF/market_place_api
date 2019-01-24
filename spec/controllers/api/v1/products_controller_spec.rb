@@ -76,6 +76,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       end
 
       it "renders the json representation for the updated product record" do
+        puts ">>>>>> >>>>>> >>>>> >>>> #{json_response}"
         expect(json_response[:title]).to eql "An Expensive TV"
       end
 

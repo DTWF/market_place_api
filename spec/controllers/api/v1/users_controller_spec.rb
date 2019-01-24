@@ -41,7 +41,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       before(:each) do
         @invalid_user_attributes = { password: "12345678",
                                      password_confirmation: "12345678"}
-        post :create,  params: { user: @invalid_user_attributes }, format: :json
+        post :create,  params: { user: @invalid_user_attributes , format: :json }
       end
 
       it "renders an error json" do
