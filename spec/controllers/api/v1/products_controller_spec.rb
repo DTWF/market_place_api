@@ -14,6 +14,10 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
     end
 
     it { is_expected.to respond_with 200 }
+
+    it "has the user as embedded object" do
+      expect(json_response[:user][:email]).to eql @product.user.email
+    end
   end
 
   describe "GET #index" do
@@ -28,6 +32,13 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
     end
 
     it { is_expected.to respond_with 200 }
+
+    it "returns the user object in every product" do
+      products_response = json_response
+      products_response.each do |product_response|
+        expect(product_response[:user]).to be_present
+      end
+    end
   end
 
   describe "POST #create" do
@@ -76,7 +87,6 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       end
 
       it "renders the json representation for the updated product record" do
-        puts ">>>>>> >>>>>> >>>>> >>>> #{json_response}"
         expect(json_response[:title]).to eql "An Expensive TV"
       end
 
