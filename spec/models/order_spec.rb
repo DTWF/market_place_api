@@ -35,4 +35,20 @@ RSpec.describe Order, type: :model do
       expect {order.build_placements_with_product_ids_and_quantities(@product_ids_and_quantities)}.to change{order.placements.size}.from(0).to(2)
     end
   end
+
+  describe "#valid?" do
+    before do
+      product_1 = FactoryBot.create :product, price: 100, quantity: 5
+      product_2 = FactoryBot.create :product, price: 85, quantity: 10
+
+      placement_1 = FactoryBot.build :placement, product: product_1, quantity: 3
+      placement_2 = FactoryBot.build :placement, product: product_2, quantity: 15
+
+      @order = FactoryBot.build :order
+
+      it "becomes invalid due to insufficient products" do
+        expect(@order).to_not be_valid
+      end
+    end
+  end
 end

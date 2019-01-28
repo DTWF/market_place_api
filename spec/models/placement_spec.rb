@@ -11,6 +11,7 @@ RSpec.describe Placement, type: :model do
   it { is_expected.to belong_to :product }
 
   describe "#decrement_product_quantity!" do
+
     it "decreases the product quantity when placement is set" do
       product = placement.product
       expect{placement.decrement_product_quantity!}.to change{product.quantity}.by(-placement.quantity)
